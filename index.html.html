@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ART Watch — New Start Centre</title>
+<style>
+:root{
+  --bg: #F4F6F5; --panel: #FFFFFF; --ink: #16241F; --ink-soft: #4C5C56; --line: #E1E7E4;
+  --navy: #0D2A45; --navy-deep: #081D30; --teal: #0A6E88; --critical: #B3261E; --critical-bg:#FBE9E7;
+  --high:#B5650A; --high-bg:#FCEEDD; --mod:#8A6E10; --mod-bg:#FBF3D8; --low:#2E6B44; --low-bg:#E7F1E9;
+  --r:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+.hdr{background:linear-gradient(90deg,var(--navy-deep),var(--navy));color:#fff;padding:22px 28px;display:flex;align-items:center;gap:16px}
+.hdr-logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--teal),#006a85);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0}
+.hdr h1{font-size:19px;font-weight:700}
+.hdr p{font-size:12px;color:#c9d3db;margin-top:2px}
+.wrap{max-width:1150px;margin:0 auto;padding:26px 20px 60px}
+.notice{background:#FFF7E0;border:1px solid #E8D28A;border-radius:var(--r);padding:14px 18px;font-size:13px;color:#5c4a10;margin-bottom:22px}
+.grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:22px;align-items:start}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.card h2{font-size:15px;margin-bottom:14px;color:var(--navy)}
+.section{margin-bottom:18px}
+.section h3{font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-soft);margin-bottom:10px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px}
+.field{display:flex;flex-direction:column;gap:4px}
+.field.full{grid-column:1 / -1}
+label{font-size:12px;color:var(--ink-soft);font-weight:600}
+input,select{padding:8px 10px;border:1px solid var(--line);border-radius:7px;font-size:13.5px;background:#fff;color:var(--ink)}
+input:focus,select:focus{outline:2px solid var(--teal);outline-offset:1px}
+.checkrow{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink)}
+.checkrow input{width:auto}
+button.primary{width:100%;padding:13px;border:none;border-radius:8px;background:var(--navy);color:#fff;font-size:14.5px;font-weight:700;cursor:pointer;margin-top:6px}
+button.primary:hover{background:var(--navy-deep)}
+button.secondary{width:100%;padding:9px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink-soft);font-size:12.5px;cursor:pointer;margin-top:8px}
+.result{display:none}
+.result.show{display:block}
+.tier-badge{display:inline-block;padding:5px 14px;border-radius:20px;font-weight:700;font-size:13px;margin-bottom:14px}
+.tier-Critical{background:var(--critical-bg);color:var(--critical)}
+.tier-High{background:var(--high-bg);color:var(--high)}
+.tier-Moderate{background:var(--mod-bg);color:var(--mod)}
+.tier-Low{background:var(--low-bg);color:var(--low)}
+.score-big{font-size:42px;font-weight:800;color:var(--navy);line-height:1}
+.score-cap{font-size:12px;color:var(--ink-soft);margin-top:4px}
+.action-box{margin-top:16px;padding:14px;border-radius:8px;font-size:13.5px}
+.action-Critical{background:var(--critical-bg);color:var(--critical)}
+.action-High{background:var(--high-bg);color:var(--high)}
+.action-Moderate{background:var(--mod-bg);color:var(--mod)}
+.action-Low{background:var(--low-bg);color:var(--low)}
+.placeholder{color:var(--ink-soft);font-size:13.5px;text-align:center;padding:40px 10px}
+.footnote{font-size:11.5px;color:var(--ink-soft);margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-logo">AW</div>
+  <div>
+    <h1>ART Watch</h1>
+    <p>New Start Centre, Harare</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="grid">
+    <div class="card">
+      <h2>Client Details</h2>
+      <form id="clientForm">
+
+        <div class="section">
+          <h3>Demographics</h3>
+          <div class="field-row">
+            <div class="field"><label>Date of birth</label><input type="date" id="birthdate"></div>
+            <div class="field"><label>Sex</label><select id="sex"><option value="">Select</option><option value="F">Female</option><option value="M">Male</option></select></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Education</label><select id="education"><option value="">Unknown</option><option>Primary</option><option>Secondary</option><option>Tertiary</option></select></div>
+            <div class="field"><label>Residence</label><select id="client_resident"><option value="">Unknown</option><option>Urban</option><option>Rural</option></select></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Marital status</label>
+              <select id="marital_status"><option value="">Unknown</option>
+                <option>Never married</option><option>Married</option><option>Cohabiting</option>
+                <option>Divorced</option><option>Separated</option><option>Widowed</option>
+              </select>
+            </div>
+            <div class="field"><label>Occupation</label>
+              <select id="occupation"><option value="">Unknown</option>
+                <option>Unemployed</option><option>Self employed</option><option>Professional</option>
+                <option>General worker</option><option>Vendor</option><option>Student</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="field full">
+            <label>Referral source</label>
+            <select id="referral_source"><option value="">Unknown</option>
+              <option>Self referred</option>
+              <option>Community Mobiliser-IPC Agent</option><option>Community Health Worker</option>
+              <option>IPC</option><option>Hands of Hope</option><option>Index</option>
+              <option>Partner-Conduct</option><option>CESHHAR</option><option>Other Partner Organisation</option>
+              <option>Friend-Family</option><option>Doctor-Healthy Facility</option><option>Other referral source</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>ART History &amp; Visit Model</h3>
+          <div class="field-row">
+            <div class="field"><label>Date initiated on ART</label><input type="date" id="art_init_date"></div>
+            <div class="field"><label>Visit / follow-up type</label>
+              <select id="visit_type"><option value="">Unknown</option>
+                <option value="Clinical Visit - Present self (Non-DSD)">Standard clinic visit</option>
+                <option value="Individual Pick Community - DSD">Community pick-up (DSD)</option>
+                <option value="Fast Track- DSD">Fast track (DSD)</option>
+                <option value="Family member - DSD">Family member pick-up (DSD)</option>
+                <option value="CARG- DSD">Community ART refill group (DSD)</option>
+                <option value="Phone call - Client Follow up">Phone follow-up</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Medication &amp; Appointments</h3>
+          <div class="field-row">
+            <div class="field"><label>Medication supply given</label>
+              <select id="supply_category"><option value="">Unknown</option>
+                <option value="1 month or less">1 month or less</option>
+                <option value="2 Months supply">2 months</option>
+                <option value="3 Months supply">3 months</option>
+                <option value="4 Months supply">4 months</option>
+                <option value="5 Months supply">5 months</option>
+                <option value="6 Months supply">6 months</option>
+                <option value="More than 6 months supply">More than 6 months</option>
+              </select>
+            </div>
+            <div class="field"><label>Pill count at last visit</label><input type="number" id="pill_count" min="0" placeholder="e.g. 30"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Next scheduled review date</label><input type="date" id="next_review_date"></div>
+            <div class="field"><label>Next scheduled resupply date</label><input type="date" id="next_resupply_date"></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Viral Load &amp; Clinical</h3>
+          <div class="field-row">
+            <div class="field"><label>Last viral load date</label><input type="date" id="last_vl_date"></div>
+            <div class="field"><label>Next viral load due</label><input type="date" id="next_vl_date"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Last viral load result</label><select id="vl_status"><option value="">Unknown / not tested</option><option>Suppressed</option><option>Unsuppressed</option></select></div>
+            <div class="field"><label>CD4 count (if available)</label><input type="number" id="cd4" min="0" placeholder="e.g. 350"></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Context</h3>
+          <label class="checkrow"><input type="checkbox" id="vl_eligible"> Eligible for viral load testing</label>
+          <label class="checkrow"><input type="checkbox" id="pregnant"> Currently pregnant</label>
+          <label class="checkrow"><input type="checkbox" id="breastfeeding"> Currently breastfeeding</label>
+          <label class="checkrow"><input type="checkbox" id="contact_traced"> Contact tracing completed</label>
+        </div>
+
+        <button type="submit" class="primary">Calculate Risk Score</button>
+        <button type="button" class="secondary" id="fillDemo">Fill example client</button>
+        <button type="button" class="secondary" id="clearForm">Clear form</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Risk Assessment</h2>
+      <div id="placeholder" class="placeholder">Fill in the details and press <strong>Calculate Risk Score</strong>.</div>
+      <div id="result" class="result">
+        <span id="tierBadge" class="tier-badge"></span>
+        <div id="scoreBig" class="score-big"></div>
+        <div class="score-cap">Risk score (0 to 1). Higher means higher risk; not a calibrated probability.</div>
+        <div id="actionBox" class="action-box"></div>
+      </div>
+      <div class="footnote">
+        Blank fields are filled with the model's training-set median. Unticked boxes count as "no".
+      </div>
+    </div>
+  </div>
+
+  <div class="notice" style="margin-top:22px;background:#F0F4F3;border-color:var(--line);color:var(--ink-soft)">
+    <strong>Caution.</strong> A score supports clinical judgement, it does not replace it. Live client use requires separate ethics approval.
+  </div>
+</div>
+
+<script>
+// ============================================================
+// Feature engineering — mirrors Objective 2 of the original
+// notebook (cells 11-17) exactly, field for field.
+// Input: a plain object of RAW counsellor-entered values.
+// Output: the 34-feature object the model expects.
+// ============================================================
+
+const UNSTABLE_MARITAL = ["Divorced", "Separated", "Widowed", "Cohabiting"];
+const COMM_REFERRAL_SOURCES = [
+  "Community Mobiliser-IPC Agent", "Community Health Worker", "IPC",
+  "Hands of Hope", "Index", "Partner-Conduct", "CESHHAR", "Other Partner Organisation",
+];
+const DSD_VISIT_TYPES = [
+  "Individual Pick Community - DSD", "Fast Track- DSD", "Family member - DSD", "CARG- DSD",
+];
+const EDU_MAP = { Primary: 1, Secondary: 2, Tertiary: 3 };
+const SUPPLY_MAP = {
+  "1 month or less": 1, "2 Months supply": 2, "3 Months supply": 3,
+  "4 Months supply": 4, "5 Months supply": 5, "6 Months supply": 6,
+  "More than 6 months supply": 7,
+};
+
+function clip(v, lo, hi) {
+  if (v === null || v === undefined || Number.isNaN(v)) return v;
+  return Math.min(hi, Math.max(lo, v));
+}
+function daysBetween(a, b) {
+  // (a - b) in days, a and b are Date objects or null
+  if (!a || !b) return null;
+  return Math.round((a.getTime() - b.getTime()) / 86400000);
+}
+
+// raw: {
+//   birthdate: Date|null, sex: 'M'|'F',
+//   education: 'Primary'|'Secondary'|'Tertiary'|null,
+//   marital_status: string, client_resident: 'Urban'|'Rural',
+//   occupation: string, referral_source: string,
+//   art_init_date: Date|null,
+//   supply_category: one of SUPPLY_MAP keys | null,
+//   next_review_date: Date|null, next_resupply_date: Date|null,
+//   pill_count: number|null,
+//   last_vl_date: Date|null, next_vl_date: Date|null,
+//   vl_eligible: bool|null, vl_status: 'Suppressed'|'Unsuppressed'|null,
+//   cd4: number|null,
+//   pregnant: bool|null, breastfeeding: bool|null, contact_traced: bool|null,
+//   visit_type: string (one of the art_type_of_visit categories) | null,
+// }
+// snapshot: Date — "today" as far as the model is concerned
+function engineerFeatures(raw, snapshot) {
+  const f = {};
+
+  // --- Demographics (8) ---
+  f.age_yrs = raw.birthdate ? daysBetween(snapshot, raw.birthdate) / 365.25 : null;
+  f.sex_male = raw.sex === "M" ? 1 : 0;
+  f.edu_ord = raw.education ? (EDU_MAP[raw.education] ?? null) : null;
+  f.marital_risk = UNSTABLE_MARITAL.includes(raw.marital_status) ? 1 : 0;
+  f.is_urban = raw.client_resident === "Urban" ? 1 : 0;
+  f.unemployed = raw.occupation === "Unemployed" ? 1 : 0;
+  f.self_referred = raw.referral_source === "Self referred" ? 1 : 0;
+  f.comm_linked = COMM_REFERRAL_SOURCES.includes(raw.referral_source) ? 1 : 0;
+
+  // --- ART History (4) ---
+  const artMonthsRaw = raw.art_init_date ? daysBetween(snapshot, raw.art_init_date) / 30.44 : null;
+  f.art_months = artMonthsRaw === null ? null : clip(artMonthsRaw, 0, 300);
+  f.early_art = f.art_months !== null && f.art_months < 6 ? 1 : 0;
+  f.stable_art = f.art_months !== null && f.art_months >= 24 ? 1 : 0;
+  f.on_2nd_line = 0; // constant placeholder, matching the original (not available in source EMR)
+
+  // --- Medication Supply (3) ---
+  f.supply_mo = raw.supply_category ? (SUPPLY_MAP[raw.supply_category] ?? null) : null;
+  f.short_supply = f.supply_mo !== null ? (f.supply_mo <= 1 ? 1 : 0) : 0;
+  f.long_supply = f.supply_mo !== null ? (f.supply_mo >= 6 ? 1 : 0) : 0;
+
+  // --- Appointment Adherence (5) ---
+  f.d_to_rev = daysBetween(raw.next_review_date, snapshot);
+  f.d_to_res = daysBetween(raw.next_resupply_date, snapshot);
+  f.ov_rev = f.d_to_rev !== null ? (f.d_to_rev < 0 ? 1 : 0) : 0;
+  f.ov_res = f.d_to_res !== null ? (f.d_to_res < 0 ? 1 : 0) : 0;
+  f.pill_ct = raw.pill_count === null || raw.pill_count === undefined ? null : clip(raw.pill_count, 0, 500);
+
+  // --- Viral Load (6) ---
+  const dSinceVlRaw = daysBetween(snapshot, raw.last_vl_date);
+  f.d_since_vl = dSinceVlRaw === null ? null : clip(dSinceVlRaw, 0, 1500);
+  f.d_to_vl = daysBetween(raw.next_vl_date, snapshot);
+  f.vl_elig = raw.vl_eligible === true ? 1 : 0;
+  f.vl_supp = raw.vl_status === "Suppressed" ? 1 : 0;
+  f.vl_unsupp = raw.vl_status === "Unsuppressed" ? 1 : 0;
+  f.vl_known = raw.vl_status ? 1 : 0;
+
+  // --- Clinical (2) ---
+  f.cd4 = raw.cd4 === null || raw.cd4 === undefined ? null : clip(raw.cd4, 0, 2000);
+  f.cd4_low = f.cd4 !== null ? (f.cd4 < 200 ? 1 : 0) : 0; // matches original: NaN comparisons -> false -> 0, not null
+
+  // --- Context / Interaction (6) ---
+  f.pregnant = raw.pregnant === true ? 1 : 0;
+  f.bfeed = raw.breastfeeding === true ? 1 : 0;
+  f.c_traced = raw.contact_traced === true ? 1 : 0;
+  f.dsd_comm = DSD_VISIT_TYPES.includes(raw.visit_type) ? 1 : 0;
+  f.phone_fu = raw.visit_type === "Phone call - Client Follow up" ? 1 : 0;
+  f.risk_cmpd = f.vl_unsupp * (f.short_supply === 1 ? 1 : 0);
+
+  return f;
+}
+
+// ============================================================
+// Tree-based scoring — walks the exported XGBoost trees exactly
+// ============================================================
+function evalTree(node, feats, medians) {
+  while (node.f !== undefined) {
+    let val = feats[node.f];
+    if (val === null || val === undefined) val = medians[node.f]; // median imputation, same as SimpleImputer
+    node = val < node.t ? node.y : node.n;
+  }
+  return node.l;
+}
+
+function predictProba(feats, trees, medians) {
+  let margin = BASE_MARGIN;
+  for (const t of trees) margin += evalTree(t, feats, medians);
+  return 1 / (1 + Math.exp(-margin));
+}
+
+function riskTier(score) {
+  if (score >= TIER_CUTS.Critical) return "Critical";
+  if (score >= TIER_CUTS.High) return "High";
+  if (score >= TIER_CUTS.Moderate) return "Moderate";
+  return "Low";
+}
+
+
+
+const TREES = [{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.015047879},"n":{"l":0.0160294119}},"n":{"l":0.0376642346}},"n":{"f":"vl_elig","t":0.00451950915,"y":{"f":"pill_ct","t":1.94331694,"y":{"l":0.0120930225},"n":{"l":-0.0285131689}},"n":{"f":"vl_elig","t":0.990969598,"y":{"l":0.0328571424},"n":{"l":-0.0158317387}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.013303075},"n":{"l":0.0151918633}},"n":{"l":0.0369905643}},"n":{"f":"marital_risk","t":0.996832132,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0167204645},"n":{"l":0.0334096402}},"n":{"f":"edu_ord","t":2.0430069,"y":{"l":-0.0339563973},"n":{"l":-0.00716522755}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0128727825},"n":{"l":0.015663309}},"n":{"l":0.0363358073}},"n":{"f":"sex_male","t":0.00292184297,"y":{"f":"vl_elig","t":0.00451950915,"y":{"l":-0.030342564},"n":{"l":-0.0155085977}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.0344793573},"n":{"l":-0.0176688004}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"early_art","t":1,"y":{"l":0.00859212596},"n":{"l":-0.0298327897}},"n":{"l":0.035720773}},"n":{"f":"marital_risk","t":0.996832132,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0158099215},"n":{"l":0.0329858661}},"n":{"f":"edu_ord","t":2.0430069,"y":{"l":-0.0326894186},"n":{"l":-0.00663315039}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"early_art","t":0.983305633,"y":{"l":0.00840786099},"n":{"l":-0.0295068026}},"n":{"l":0.0351241454}},"n":{"f":"sex_male","t":0.00292184297,"y":{"f":"d_to_rev","t":358.902252,"y":{"l":-0.027197944},"n":{"l":0.00398356887}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.0334730968},"n":{"l":-0.0185445659}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0139709311},"n":{"l":0.0141163049}},"n":{"l":0.0345444418}},"n":{"f":"sex_male","t":0.00292184297,"y":{"f":"vl_elig","t":0.00451950915,"y":{"l":-0.029102413},"n":{"l":-0.0139784766}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.0328993425},"n":{"l":-0.0172100477}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0130228782},"n":{"l":0.014406913}},"n":{"l":0.0338926874}},"n":{"f":"sex_male","t":0.00292184297,"y":{"f":"marital_risk","t":0.966243386,"y":{"l":-0.0181003213},"n":{"l":-0.0316359214}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.0323946364},"n":{"l":-0.017426515}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0132270511},"n":{"l":0.0135417515}},"n":{"l":0.0335030518}},"n":{"f":"sex_male","t":0.00292184297,"y":{"f":"art_months","t":61.0868645,"y":{"l":-0.0299648661},"n":{"l":-0.0157607887}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.032091938},"n":{"l":-0.0162565336}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.013476233},"n":{"l":0.0140354764}},"n":{"l":0.0329785235}},"n":{"f":"vl_elig","t":0.00451950915,"y":{"f":"pill_ct","t":1.94331694,"y":{"l":0.013860031},"n":{"l":-0.0252282582}},"n":{"f":"vl_elig","t":0.990969598,"y":{"l":0.031745255},"n":{"l":-0.0126958033}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"unemployed","t":0.993317842,"y":{"l":0.0100667328},"n":{"l":-0.0207000561}},"n":{"l":0.0325302482}},"n":{"f":"sex_male","t":0.00292184297,"y":{"f":"marital_risk","t":0.966243386,"y":{"l":-0.0161988474},"n":{"l":-0.0306005869}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.0314614065},"n":{"l":-0.0152680641}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"early_art","t":1,"y":{"l":0.0076890788},"n":{"l":-0.0283799265}},"n":{"l":0.0320244059}},"n":{"f":"marital_risk","t":0.996832132,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.013466537},"n":{"l":0.0322154909}},"n":{"f":"edu_ord","t":2.0430069,"y":{"l":-0.0301348474},"n":{"l":-0.00337384897}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"unemployed","t":0.997078955,"y":{"l":0.00992687326},"n":{"l":-0.0191436317}},"n":{"l":0.0315804593}},"n":{"f":"pill_ct","t":17,"y":{"f":"sex_male","t":0.00292184297,"y":{"l":-0.019092029},"n":{"l":0.00637221616}},"n":{"f":"edu_ord","t":2.0430069,"y":{"l":-0.0306318104},"n":{"l":-0.00352165755}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0128547},"n":{"l":0.0124218995}},"n":{"l":0.0312355794}},"n":{"f":"marital_risk","t":0.996832132,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0126742702},"n":{"l":0.031087853}},"n":{"f":"edu_ord","t":2.0430069,"y":{"l":-0.0290284753},"n":{"l":-0.00444183452}}}},{"f":"supply_mo","t":6,"y":{"f":"dsd_comm","t":0.984186828,"y":{"f":"early_art","t":1,"y":{"l":0.0179921389},"n":{"l":-0.0222513769}},"n":{"l":-0.0317900814}},"n":{"f":"sex_male","t":0.00292184297,"y":{"f":"vl_elig","t":0.00451950915,"y":{"l":-0.0265126359},"n":{"l":-0.0126089547}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.0309319552},"n":{"l":-0.0155823492}}}},{"f":"supply_mo","t":6,"y":{"f":"early_art","t":1,"y":{"f":"dsd_comm","t":0.984186828,"y":{"l":0.0175868049},"n":{"l":-0.0285530481}},"n":{"f":"long_supply","t":0.00534616085,"y":{"l":-0.0292372108},"n":{"l":0.00738567533}}},"n":{"f":"sex_male","t":0.00292184297,"y":{"f":"age_yrs","t":22.6039047,"y":{"l":0.0037040629},"n":{"l":-0.0233678464}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.0305230319},"n":{"l":-0.0147519903}}}},{"f":"supply_mo","t":6,"y":{"f":"dsd_comm","t":0.984186828,"y":{"f":"unemployed","t":0.997078955,"y":{"l":0.0189951863},"n":{"l":-0.00882424787}},"n":{"l":-0.030725155}},"n":{"f":"marital_risk","t":0.996832132,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0133467149},"n":{"l":0.0308733638}},"n":{"f":"edu_ord","t":2.0430069,"y":{"l":-0.0276113618},"n":{"l":-0.00290117343}}}},{"f":"supply_mo","t":6,"y":{"f":"early_art","t":1,"y":{"f":"dsd_comm","t":0.974247634,"y":{"l":0.0174827222},"n":{"l":-0.0279672146}},"n":{"f":"long_supply","t":0.00534616085,"y":{"l":-0.0276387073},"n":{"l":0.00679678656}}},"n":{"f":"marital_risk","t":0.996832132,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0129545433},"n":{"l":0.0305065289}},"n":{"f":"edu_ord","t":2.0430069,"y":{"l":-0.0280512515},"n":{"l":-0.00490301801}}}},{"f":"supply_mo","t":6,"y":{"f":"dsd_comm","t":0.984186828,"y":{"f":"early_art","t":1,"y":{"l":0.0166932922},"n":{"l":-0.0204500798}},"n":{"l":-0.0298854485}},"n":{"f":"marital_risk","t":0.996832132,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0119329626},"n":{"l":0.0298759881}},"n":{"f":"edu_ord","t":2.0430069,"y":{"l":-0.027390765},"n":{"l":-0.00458067609}}}},{"f":"dsd_comm","t":0.993911266,"y":{"f":"pill_ct","t":27,"y":{"f":"sex_male","t":0.00292184297,"y":{"l":-0.00157808897},"n":{"l":0.0188187696}},"n":{"f":"phone_fu","t":0.00292103272,"y":{"l":-0.0281519331},"n":{"l":0.00877451524}}},"n":{"f":"d_to_vl","t":499.255341,"y":{"l":-0.0300172735},"n":{"f":"self_referred","t":0.00501863053,"y":{"l":0.00263332576},"n":{"l":-0.00938832574}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"sex_male","t":0.00292184297,"y":{"l":-0.0171795171},"n":{"l":0.00545107946}},"n":{"l":0.0344187878}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"ov_res","t":0.00963821821,"y":{"l":-0.0283793136},"n":{"l":0.00447512977}},"n":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0153463138},"n":{"l":0.023527341}}}},{"f":"pill_ct","t":27,"y":{"f":"dsd_comm","t":0.993911266,"y":{"f":"sex_male","t":0.00292184297,"y":{"l":-0.00245866692},"n":{"l":0.0184840001}},"n":{"f":"d_to_vl","t":499.255341,"y":{"l":-0.0292693432},"n":{"l":-0.00350560155}}},"n":{"f":"phone_fu","t":0.00292103272,"y":{"f":"vl_elig","t":0.00451950915,"y":{"l":-0.0300124492},"n":{"l":-0.00422855839}},"n":{"f":"phone_fu","t":1,"y":{"l":0.0180722047},"n":{"l":-0.0104807541}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0188238658},"n":{"l":0.00497927191}},"n":{"l":0.0336355567}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"d_to_res","t":52,"y":{"l":0.00225340133},"n":{"l":-0.0284630284}},"n":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0157804247},"n":{"l":0.0225346778}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0115890028},"n":{"l":0.0115709528}},"n":{"l":0.0293125436}},"n":{"f":"vl_elig","t":0.00451950915,"y":{"f":"pill_ct","t":1.94331694,"y":{"l":0.0140878689},"n":{"l":-0.0215511527}},"n":{"f":"vl_elig","t":0.990969598,"y":{"l":0.0304450784},"n":{"l":-0.0109123774}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0123174852},"n":{"l":0.0105094621}},"n":{"l":0.0289654601}},"n":{"f":"vl_elig","t":0.00451950915,"y":{"f":"pill_ct","t":1.94331694,"y":{"l":0.0158295333},"n":{"l":-0.0214543287}},"n":{"f":"vl_elig","t":0.990969598,"y":{"l":0.0298316944},"n":{"l":-0.0115045235}}}},{"f":"dsd_comm","t":0.993911266,"y":{"f":"pill_ct","t":27,"y":{"f":"marital_risk","t":0.996832132,"y":{"l":0.0149144679},"n":{"l":-0.0066968482}},"n":{"f":"phone_fu","t":0.00292103272,"y":{"l":-0.0256869532},"n":{"l":0.00745233335}}},"n":{"f":"d_to_vl","t":499.255341,"y":{"l":-0.0293343272},"n":{"f":"cd4","t":438.966522,"y":{"l":-0.00979473256},"n":{"l":0.00493325712}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"early_art","t":1,"y":{"l":0.00630572904},"n":{"l":-0.0254112165}},"n":{"l":0.0285515375}},"n":{"f":"marital_risk","t":0.996832132,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0112308478},"n":{"l":0.0288182702}},"n":{"f":"edu_ord","t":2.0430069,"y":{"l":-0.0259883795},"n":{"l":-0.00340681942}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"unemployed","t":0.997078955,"y":{"l":0.00808049273},"n":{"l":-0.0175126623}},"n":{"l":0.0282623954}},"n":{"f":"marital_risk","t":0.996832132,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0109396111},"n":{"l":0.0282665715}},"n":{"f":"edu_ord","t":2.0430069,"y":{"l":-0.0255312528},"n":{"l":-0.00342359976}}}},{"f":"pill_ct","t":27,"y":{"f":"dsd_comm","t":0.993911266,"y":{"f":"c_traced","t":0.993564785,"y":{"l":0.0125360601},"n":{"l":-0.0141858896}},"n":{"f":"d_to_vl","t":370.473633,"y":{"l":-0.0294528548},"n":{"l":-0.00912583619}}},"n":{"f":"phone_fu","t":0.00292103272,"y":{"f":"dsd_comm","t":0.00758459931,"y":{"l":-0.0275221411},"n":{"l":0.00144974049}},"n":{"f":"phone_fu","t":1,"y":{"l":0.0164981931},"n":{"l":-0.0074101286}}}},{"f":"dsd_comm","t":0.993336916,"y":{"f":"pill_ct","t":27,"y":{"f":"stable_art","t":0.00643521128,"y":{"l":-0.0109972889},"n":{"l":0.0138095357}},"n":{"f":"phone_fu","t":0.00292103272,"y":{"l":-0.0256561339},"n":{"l":0.0100887679}}},"n":{"f":"d_to_vl","t":370.473633,"y":{"l":-0.0290035605},"n":{"f":"d_to_vl","t":375,"y":{"l":0.00127576233},"n":{"l":-0.0121494848}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"sex_male","t":0.00292184297,"y":{"l":-0.0168595165},"n":{"l":0.00514933933}},"n":{"l":0.0322940387}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"ov_res","t":0.00963821821,"y":{"l":-0.026732197},"n":{"l":0.00299180206}},"n":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0140714906},"n":{"l":0.0210623834}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.011726209},"n":{"l":0.0111775743}},"n":{"l":0.0276935771}},"n":{"f":"marital_risk","t":0.996832132,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0105885481},"n":{"l":0.0275530424}},"n":{"f":"edu_ord","t":2.0430069,"y":{"l":-0.0249887947},"n":{"l":-0.00354138901}}}},{"f":"pill_ct","t":27,"y":{"f":"dsd_comm","t":0.993911266,"y":{"f":"marital_risk","t":0.996832132,"y":{"l":0.0143536087},"n":{"l":-0.00688419677}},"n":{"f":"d_to_vl","t":370.473633,"y":{"l":-0.0285669956},"n":{"l":-0.00811912678}}},"n":{"f":"phone_fu","t":0.00292103272,"y":{"f":"dsd_comm","t":0.00758459931,"y":{"l":-0.0261776894},"n":{"l":0.00205832697}},"n":{"f":"phone_fu","t":1,"y":{"l":0.0153046614},"n":{"l":-0.00570508419}}}},{"f":"sex_male","t":0.00292184297,"y":{"f":"art_months","t":42.866703,"y":{"f":"phone_fu","t":0.00292103272,"y":{"l":-0.0238403548},"n":{"l":0.0109056532}},"n":{"f":"marital_risk","t":0.985332966,"y":{"l":0.00757788541},"n":{"l":-0.018000111}}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.0312427133},"n":{"f":"pill_ct","t":2,"y":{"l":0.0169089399},"n":{"l":-0.0138100879}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"c_traced","t":0.993564785,"y":{"l":0.00614947593},"n":{"l":-0.022021722}},"n":{"l":0.0271652844}},"n":{"f":"vl_elig","t":0.00451950915,"y":{"f":"pill_ct","t":1.94331694,"y":{"l":0.0145017672},"n":{"l":-0.020062618}},"n":{"f":"vl_elig","t":0.990969598,"y":{"l":0.0285514873},"n":{"l":-0.0113211405}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0179387219},"n":{"l":0.00381251774}},"n":{"l":0.0313951448}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"ov_res","t":0.00963821821,"y":{"l":-0.0262530129},"n":{"l":0.0032009359}},"n":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0143459504},"n":{"l":0.0208510179}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0173611846},"n":{"l":0.00476256711}},"n":{"l":0.0310486387}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"ov_res","t":0.00963821821,"y":{"l":-0.0257877707},"n":{"l":0.00249410328}},"n":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0146699082},"n":{"l":0.0206306502}}}},{"f":"dsd_comm","t":0.993911266,"y":{"f":"pill_ct","t":27,"y":{"f":"sex_male","t":0.00292184297,"y":{"l":-0.0021272786},"n":{"l":0.0163965411}},"n":{"f":"phone_fu","t":0.00292103272,"y":{"l":-0.0243911482},"n":{"l":0.00835176837}}},"n":{"f":"d_to_vl","t":499.255341,"y":{"l":-0.0265831053},"n":{"f":"cd4","t":438.966522,"y":{"l":-0.00798866991},"n":{"l":0.00495947991}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0110281641},"n":{"l":0.0106319701}},"n":{"l":0.026718406}},"n":{"f":"sex_male","t":0.00292184297,"y":{"f":"age_yrs","t":22.6039047,"y":{"l":0.00503949495},"n":{"l":-0.0197731704}},"n":{"f":"sex_male","t":0.988521636,"y":{"l":0.0272067413},"n":{"l":-0.0123609276}}}},{"f":"sex_male","t":0.00292184297,"y":{"f":"art_months","t":42.5755577,"y":{"f":"phone_fu","t":0.00292103272,"y":{"l":-0.0224332605},"n":{"l":0.0108961947}},"n":{"f":"marital_risk","t":0.985332966,"y":{"l":0.00666421838},"n":{"l":-0.0176582262}}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.0301035773},"n":{"f":"pill_ct","t":2,"y":{"l":0.0171341375},"n":{"l":-0.0135908145}}}},{"f":"sex_male","t":0.00292184297,"y":{"f":"art_months","t":43.4625511,"y":{"f":"phone_fu","t":0.00292103272,"y":{"l":-0.022272896},"n":{"l":0.0100136455}},"n":{"f":"marital_risk","t":0.985332966,"y":{"l":0.00691878609},"n":{"l":-0.0180897452}}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.0297400896},"n":{"f":"pill_ct","t":2,"y":{"l":0.0177922659},"n":{"l":-0.0125212586}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0108905397},"n":{"l":0.0107346689}},"n":{"l":0.0263265036}},"n":{"f":"vl_elig","t":0.00451950915,"y":{"f":"pill_ct","t":1.94331694,"y":{"l":0.0130143184},"n":{"l":-0.0190887526}},"n":{"f":"vl_elig","t":0.990969598,"y":{"l":0.0276456904},"n":{"l":-0.00910688099}}}},{"f":"pill_ct","t":27,"y":{"f":"dsd_comm","t":0.993911266,"y":{"f":"stable_art","t":0.00643521128,"y":{"l":-0.0103964293},"n":{"l":0.0124536427}},"n":{"f":"d_to_vl","t":370.473633,"y":{"l":-0.0269647501},"n":{"l":-0.00542118261}}},"n":{"f":"phone_fu","t":0.00292103272,"y":{"f":"dsd_comm","t":0.00758459931,"y":{"l":-0.024606511},"n":{"l":0.00204093591}},"n":{"f":"phone_fu","t":0.99036181,"y":{"l":0.0157561097},"n":{"l":-0.0100146504}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0118096313},"n":{"l":0.00932951458}},"n":{"l":0.0259957649}},"n":{"f":"marital_risk","t":0.996832132,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0108871004},"n":{"l":0.0264815707}},"n":{"f":"edu_ord","t":2.0430069,"y":{"l":-0.022787476},"n":{"l":-0.00240082713}}}},{"f":"unemployed","t":0.993317842,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0168490261},"n":{"l":0.00355887529}},"n":{"l":0.0299261063}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"short_supply","t":0.00873677339,"y":{"l":-0.0254329834},"n":{"l":-0.00177876512}},"n":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0140274437},"n":{"l":0.0199779868}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"sex_male","t":0.00292184297,"y":{"l":-0.0154366624},"n":{"l":0.00501315109}},"n":{"l":0.0296839103}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"ov_res","t":0.00963821821,"y":{"l":-0.0245154835},"n":{"l":0.0024538557}},"n":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.012615745},"n":{"l":0.0188549161}}}},{"f":"sex_male","t":0.00292184297,"y":{"f":"art_months","t":43.4625511,"y":{"f":"phone_fu","t":0.00292103272,"y":{"l":-0.021031389},"n":{"l":0.0101570804}},"n":{"f":"marital_risk","t":0.985332966,"y":{"l":0.00692431023},"n":{"l":-0.0175615866}}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.02908751},"n":{"f":"pill_ct","t":2,"y":{"l":0.017073039},"n":{"l":-0.0128345555}}}},{"f":"dsd_comm","t":0.993336916,"y":{"f":"pill_ct","t":12,"y":{"f":"sex_male","t":0.00292184297,"y":{"l":0.000213450345},"n":{"l":0.0186551716}},"n":{"f":"vl_supp","t":0.997896135,"y":{"l":0.014137418},"n":{"l":-0.0149823828}}},"n":{"f":"d_to_vl","t":370.473633,"y":{"l":-0.0263641924},"n":{"f":"d_to_vl","t":385,"y":{"l":0.00301064667},"n":{"l":-0.0122012747}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0144674135},"n":{"l":0.0047605047}},"n":{"l":0.0292185135}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"short_supply","t":0.00873677339,"y":{"l":-0.0241325144},"n":{"l":0.000272762351}},"n":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0129014272},"n":{"l":0.0187894665}}}},{"f":"dsd_comm","t":0.993911266,"y":{"f":"pill_ct","t":12,"y":{"f":"sex_male","t":0.00292184297,"y":{"l":-8.28787888e-05},"n":{"l":0.0185252428}},"n":{"f":"vl_supp","t":0.997896135,"y":{"l":0.0124346437},"n":{"l":-0.014914426}}},"n":{"f":"d_to_vl","t":370.473633,"y":{"f":"pill_ct","t":35,"y":{"l":-0.0261189565},"n":{"l":-0.000971783651}},"n":{"f":"d_to_vl","t":382.962799,"y":{"l":0.00288965157},"n":{"l":-0.0127656115}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0158011448},"n":{"l":0.00404571928}},"n":{"l":0.0288322531}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"ov_res","t":0.00963821821,"y":{"l":-0.0237545725},"n":{"l":0.00216946471}},"n":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0122417165},"n":{"l":0.0185671877}}}},{"f":"pill_ct","t":27,"y":{"f":"dsd_comm","t":0.993911266,"y":{"f":"marital_risk","t":0.996832132,"y":{"l":0.0128755234},"n":{"l":-0.00585620385}},"n":{"f":"d_to_vl","t":370.473633,"y":{"l":-0.0255853459},"n":{"l":-0.00726806605}}},"n":{"f":"phone_fu","t":0.00292103272,"y":{"f":"dsd_comm","t":0.00758459931,"y":{"l":-0.023347592},"n":{"l":0.00164778659}},"n":{"f":"phone_fu","t":0.979973674,"y":{"l":0.0143422158},"n":{"l":-0.00727242278}}}},{"f":"marital_risk","t":0.996832132,"y":{"f":"marital_risk","t":0.00210384326,"y":{"f":"self_referred","t":0.00501863053,"y":{"l":-0.0209377743},"n":{"l":0.000368964334}},"n":{"l":0.0284299646}},"n":{"f":"vl_known","t":0.998120129,"y":{"f":"vl_known","t":0.00514202705,"y":{"l":-0.00715237204},"n":{"l":0.023792224}},"n":{"f":"pill_ct","t":4,"y":{"l":-0.0056876638},"n":{"l":-0.0239375941}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"c_traced","t":0.993564785,"y":{"l":0.00537547236},"n":{"l":-0.0221485179}},"n":{"l":0.0252020378}},"n":{"f":"vl_elig","t":0.00451950915,"y":{"f":"pill_ct","t":1.94331694,"y":{"l":0.0110067558},"n":{"l":-0.0177524611}},"n":{"f":"vl_elig","t":0.990969598,"y":{"l":0.0264421329},"n":{"l":-0.00934192911}}}},{"f":"pill_ct","t":27,"y":{"f":"dsd_comm","t":0.993911266,"y":{"f":"c_traced","t":0.993564785,"y":{"l":0.0102354111},"n":{"l":-0.0126200635}},"n":{"f":"d_to_vl","t":373,"y":{"l":-0.0253049843},"n":{"l":-0.00607325789}}},"n":{"f":"phone_fu","t":0.00292103272,"y":{"f":"dsd_comm","t":0.00758459931,"y":{"l":-0.0227844752},"n":{"l":0.00283562974}},"n":{"f":"phone_fu","t":1,"y":{"l":0.0146276141},"n":{"l":-0.00756129855}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0130945956},"n":{"l":0.00860244688}},"n":{"l":0.0249495264}},"n":{"f":"vl_elig","t":0.00451950915,"y":{"f":"pill_ct","t":1.94331694,"y":{"l":0.0100649819},"n":{"l":-0.0171985216}},"n":{"f":"vl_elig","t":0.990969598,"y":{"l":0.0256089438},"n":{"l":-0.00970160682}}}},{"f":"dsd_comm","t":0.993911266,"y":{"f":"pill_ct","t":27,"y":{"f":"c_traced","t":0.993564785,"y":{"l":0.010631158},"n":{"l":-0.0133977076}},"n":{"f":"phone_fu","t":0.00292103272,"y":{"l":-0.0206722096},"n":{"l":0.00685864547}}},"n":{"f":"d_to_vl","t":373,"y":{"l":-0.0249321032},"n":{"f":"d_to_vl","t":385,"y":{"l":0.00582760666},"n":{"l":-0.0111369984}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0156645086},"n":{"l":0.00398691883}},"n":{"l":0.0281295646}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"ov_res","t":0.00963821821,"y":{"l":-0.0237616766},"n":{"l":0.00328482641}},"n":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0112948334},"n":{"l":0.0181482341}}}},{"f":"sex_male","t":0.00292184297,"y":{"f":"art_months","t":42.5755577,"y":{"f":"phone_fu","t":0.00292103272,"y":{"l":-0.0208664443},"n":{"l":0.00900456123}},"n":{"f":"marital_risk","t":0.985332966,"y":{"l":0.0065525556},"n":{"l":-0.0162629131}}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.027792275},"n":{"f":"pill_ct","t":2,"y":{"l":0.0148897739},"n":{"l":-0.0117402226}}}},{"f":"marital_risk","t":0.996832132,"y":{"f":"marital_risk","t":0.00210384326,"y":{"f":"self_referred","t":0.00501863053,"y":{"l":-0.0203345362},"n":{"l":-0.000141413911}},"n":{"l":0.0276797581}},"n":{"f":"vl_known","t":0.998120129,"y":{"f":"vl_known","t":0.00514202705,"y":{"l":-0.00564125413},"n":{"l":0.0233350489}},"n":{"f":"pill_ct","t":4,"y":{"l":-0.00495242979},"n":{"l":-0.0231343415}}}},{"f":"pill_ct","t":27,"y":{"f":"dsd_comm","t":0.993911266,"y":{"f":"stable_art","t":0.00643521128,"y":{"l":-0.0101088947},"n":{"l":0.01063387}},"n":{"f":"d_to_vl","t":370.473633,"y":{"l":-0.0244500935},"n":{"l":-0.0045123524}}},"n":{"f":"phone_fu","t":0.00292103272,"y":{"f":"vl_elig","t":0.00451950915,"y":{"l":-0.0229481477},"n":{"l":-0.0031615831}},"n":{"f":"phone_fu","t":1,"y":{"l":0.0129622119},"n":{"l":-0.00572867272}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"sex_male","t":0.00292184297,"y":{"l":-0.0148545224},"n":{"l":0.00409977371}},"n":{"l":0.0275397226}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"d_to_res","t":52,"y":{"l":0.00317564211},"n":{"l":-0.0223657563}},"n":{"f":"self_referred","t":0.997896135,"y":{"l":0.017414134},"n":{"l":-0.0110087693}}}},{"f":"marital_risk","t":0.996832132,"y":{"f":"marital_risk","t":0.00210384326,"y":{"f":"unemployed","t":0.0079644043,"y":{"l":-0.0141247008},"n":{"l":0.004917379}},"n":{"l":0.0274209287}},"n":{"f":"vl_known","t":0.998120129,"y":{"f":"vl_known","t":0.00514202705,"y":{"l":-0.00673610531},"n":{"l":0.0227827821}},"n":{"f":"pill_ct","t":3.93622184,"y":{"l":-0.0047604288},"n":{"l":-0.022083573}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0151379043},"n":{"l":0.00366825983}},"n":{"l":0.0271198582}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"d_to_rev","t":473,"y":{"l":-0.0219012666},"n":{"l":0.00417114422}},"n":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0109919021},"n":{"l":0.0152715156}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"early_art","t":0.983305633,"y":{"l":0.00507811317},"n":{"l":-0.0212991573}},"n":{"l":0.0242906399}},"n":{"f":"sex_male","t":0.00292184297,"y":{"f":"d_to_res","t":239.851547,"y":{"l":-0.00890153833},"n":{"l":-0.0211284161}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.0242129602},"n":{"l":-0.011216973}}}},{"f":"dsd_comm","t":0.993911266,"y":{"f":"pill_ct","t":17,"y":{"f":"c_traced","t":0.993564785,"y":{"l":0.0115772309},"n":{"l":-0.0108656706}},"n":{"f":"vl_supp","t":0.997896135,"y":{"l":0.0127855223},"n":{"l":-0.0167115964}}},"n":{"f":"d_to_vl","t":370.473633,"y":{"l":-0.0241012108},"n":{"f":"d_to_vl","t":381.125214,"y":{"l":0.00192974799},"n":{"l":-0.0109904381}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0145193171},"n":{"l":0.00400349824}},"n":{"l":0.0268618967}},"n":{"f":"art_months","t":46.3998909,"y":{"f":"short_supply","t":0.00873677339,"y":{"l":-0.0228140857},"n":{"l":0.00328648556}},"n":{"f":"marital_risk","t":0.996832132,"y":{"l":0.00511290459},"n":{"l":-0.019961847}}}},{"f":"dsd_comm","t":0.993911266,"y":{"f":"pill_ct","t":15,"y":{"f":"sex_male","t":0.00292184297,"y":{"l":-0.000431405642},"n":{"l":0.0155507987}},"n":{"f":"vl_supp","t":0.997896135,"y":{"l":0.0136659462},"n":{"l":-0.0153917242}}},"n":{"f":"d_to_vl","t":373,"y":{"l":-0.0237984061},"n":{"f":"d_to_vl","t":385,"y":{"l":0.00182956748},"n":{"l":-0.0108395396}}}},{"f":"c_traced","t":0.993564785,"y":{"f":"c_traced","t":0.00210384326,"y":{"f":"marital_risk","t":0.996832132,"y":{"l":0.00391092012},"n":{"l":-0.0154469442}},"n":{"l":0.0280312859}},"n":{"f":"d_to_rev","t":295.940308,"y":{"f":"edu_ord","t":2.0430069,"y":{"l":-0.0227096211},"n":{"l":-0.00461770594}},"n":{"f":"vl_supp","t":0.995480478,"y":{"l":0.0127528142},"n":{"l":-0.0111790439}}}},{"f":"sex_male","t":0.00292184297,"y":{"f":"art_months","t":43.4625511,"y":{"f":"phone_fu","t":0.00292103272,"y":{"l":-0.0198223703},"n":{"l":0.0110756764}},"n":{"f":"marital_risk","t":0.985332966,"y":{"l":0.00640291255},"n":{"l":-0.014373512}}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.0266231727},"n":{"f":"pill_ct","t":2,"y":{"l":0.0139865028},"n":{"l":-0.0115373768}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0107125249},"n":{"l":0.00733204652}},"n":{"l":0.0238897633}},"n":{"f":"pill_ct","t":17,"y":{"f":"d_since_vl","t":27,"y":{"l":0.00204731268},"n":{"l":-0.0191445854}},"n":{"f":"edu_ord","t":2.0430069,"y":{"l":-0.0214756411},"n":{"l":0.000541674381}}}},{"f":"marital_risk","t":0.996832132,"y":{"f":"marital_risk","t":0.00210384326,"y":{"f":"self_referred","t":0.00501863053,"y":{"l":-0.0192116704},"n":{"l":0.00123807264}},"n":{"l":0.0266032834}},"n":{"f":"vl_known","t":0.998120129,"y":{"f":"vl_known","t":0.00514202705,"y":{"l":-0.00493952399},"n":{"l":0.0217547808}},"n":{"f":"pill_ct","t":4,"y":{"l":-0.00461309729},"n":{"l":-0.021413235}}}},{"f":"pill_ct","t":27,"y":{"f":"dsd_comm","t":0.993911266,"y":{"f":"stable_art","t":0.00643521128,"y":{"l":-0.0100186486},"n":{"l":0.009559731}},"n":{"f":"d_to_vl","t":370.473633,"y":{"l":-0.0234848782},"n":{"l":-0.00344758015}}},"n":{"f":"phone_fu","t":0.00292103272,"y":{"f":"dsd_comm","t":0.00758459931,"y":{"l":-0.0210072491},"n":{"l":0.00428656116}},"n":{"f":"phone_fu","t":1,"y":{"l":0.012480516},"n":{"l":-0.00642459979}}}},{"f":"dsd_comm","t":0.993911266,"y":{"f":"pill_ct","t":17,"y":{"f":"vl_known","t":0.00514202705,"y":{"l":-0.00975142606},"n":{"l":0.011784289}},"n":{"f":"vl_supp","t":0.997896135,"y":{"l":0.012341138},"n":{"l":-0.0153137175}}},"n":{"f":"d_to_vl","t":370.473633,"y":{"l":-0.0231229253},"n":{"f":"d_to_vl","t":382.962799,"y":{"l":0.00260679889},"n":{"l":-0.0110007785}}}},{"f":"stable_art","t":0.00643521128,"y":{"f":"phone_fu","t":0.00292103272,"y":{"f":"pill_ct","t":2,"y":{"l":0.00534857623},"n":{"l":-0.0198273044}},"n":{"f":"vl_supp","t":0.00534616085,"y":{"l":-0.00320702256},"n":{"l":0.0166179147}}},"n":{"f":"stable_art","t":0.993911266,"y":{"l":0.0259539224},"n":{"f":"marital_risk","t":0.996832132,"y":{"l":0.00595820043},"n":{"l":-0.0116126854}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0142761152},"n":{"l":0.0039632991}},"n":{"l":0.0263116378}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"short_supply","t":0.00873677339,"y":{"l":-0.0222379062},"n":{"l":-0.000242875365}},"n":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0104071321},"n":{"l":0.0163698513}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0139200687},"n":{"l":0.00389434351}},"n":{"l":0.0261110011}},"n":{"f":"art_months","t":30.4817638,"y":{"f":"short_supply","t":0.00873677339,"y":{"l":-0.0231995527},"n":{"l":-0.00219784444}},"n":{"f":"marital_risk","t":0.996832132,"y":{"l":-0.000272751757},"n":{"l":-0.018425405}}}},{"f":"c_traced","t":0.993564785,"y":{"f":"c_traced","t":0.00210384326,"y":{"f":"marital_risk","t":0.996832132,"y":{"l":0.00362809421},"n":{"l":-0.0138526307}},"n":{"l":0.0272647664}},"n":{"f":"d_to_rev","t":295.940308,"y":{"f":"short_supply","t":0.00873677339,"y":{"l":-0.0215138979},"n":{"l":-0.00154592865}},"n":{"f":"vl_supp","t":0.995480478,"y":{"l":0.0114565389},"n":{"l":-0.0100927921}}}},{"f":"dsd_comm","t":0.993911266,"y":{"f":"pill_ct","t":15,"y":{"f":"sex_male","t":0.00292184297,"y":{"l":-0.000873108162},"n":{"l":0.0144237066}},"n":{"f":"vl_supp","t":0.997896135,"y":{"l":0.0119299293},"n":{"l":-0.0141409561}}},"n":{"f":"d_to_vl","t":373,"y":{"l":-0.0228590909},"n":{"f":"d_to_vl","t":385,"y":{"l":0.00571506377},"n":{"l":-0.0105025349}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"early_art","t":0.983305633,"y":{"l":0.00440317532},"n":{"l":-0.020670278}},"n":{"l":0.0235756487}},"n":{"f":"pill_ct","t":6,"y":{"f":"d_since_vl","t":25,"y":{"l":0.00570217287},"n":{"l":-0.0168173891}},"n":{"f":"vl_elig","t":0.00451950915,"y":{"l":-0.0188601203},"n":{"l":-0.000443415745}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0129650235},"n":{"l":0.0038731168}},"n":{"l":0.0258154552}},"n":{"f":"art_months","t":45.2146759,"y":{"f":"short_supply","t":0.00873677339,"y":{"l":-0.0214335509},"n":{"l":0.00418115407}},"n":{"f":"marital_risk","t":0.996832132,"y":{"l":0.00305789802},"n":{"l":-0.0189665891}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.009220534},"n":{"l":0.00810548384}},"n":{"l":0.0232566856}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"edu_ord","t":2.0430069,"y":{"l":-0.0182601791},"n":{"l":0.00165446068}},"n":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.00803788099},"n":{"l":0.0242810771}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"early_art","t":1,"y":{"l":0.00448095798},"n":{"l":-0.0199704356}},"n":{"l":0.0232744738}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"pill_ct","t":1.94331694,"y":{"l":0.00335584185},"n":{"l":-0.0176144578}},"n":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.00814594887},"n":{"l":0.0236578286}}}},{"f":"c_traced","t":0.993564785,"y":{"f":"c_traced","t":0.00210384326,"y":{"f":"marital_risk","t":0.996832132,"y":{"l":0.00363740558},"n":{"l":-0.0143437218}},"n":{"l":0.0269145649}},"n":{"f":"d_to_rev","t":295.940308,"y":{"f":"short_supply","t":0.00873677339,"y":{"l":-0.021300396},"n":{"l":-0.00116838433}},"n":{"f":"vl_supp","t":0.995480478,"y":{"l":0.0107939597},"n":{"l":-0.0105717443}}}},{"f":"dsd_comm","t":0.991588414,"y":{"f":"pill_ct","t":27,"y":{"f":"stable_art","t":0.00643521128,"y":{"l":-0.00929025561},"n":{"l":0.00901508518}},"n":{"f":"phone_fu","t":0.00292103272,"y":{"l":-0.0183237027},"n":{"l":0.00407651067}}},"n":{"f":"d_to_vl","t":370.473633,"y":{"l":-0.0227617994},"n":{"f":"d_to_vl","t":385,"y":{"l":0.00371950353},"n":{"l":-0.00843027513}}}},{"f":"dsd_comm","t":0.993911266,"y":{"f":"pill_ct","t":12,"y":{"f":"vl_supp","t":0.00534616085,"y":{"l":-0.00798099209},"n":{"l":0.0125266956}},"n":{"f":"vl_elig","t":0.00451950915,"y":{"l":-0.0124932071},"n":{"l":0.0107147144}}},"n":{"f":"d_to_vl","t":370.473633,"y":{"l":-0.0222819373},"n":{"f":"d_to_vl","t":385,"y":{"l":0.00490351161},"n":{"l":-0.00858000293}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"sex_male","t":0.00292184297,"y":{"l":-0.0119869011},"n":{"l":0.00411390932}},"n":{"l":0.0254795253}},"n":{"f":"art_months","t":46.3998909,"y":{"f":"short_supply","t":0.00873677339,"y":{"l":-0.0204200074},"n":{"l":0.00216188957}},"n":{"f":"marital_risk","t":0.974834681,"y":{"l":0.00309865852},"n":{"l":-0.0176097266}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"c_traced","t":0.993564785,"y":{"l":0.00456194766},"n":{"l":-0.0178736057}},"n":{"l":0.0229832716}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"pill_ct","t":1.94331694,"y":{"l":0.00169310835},"n":{"l":-0.0181656908}},"n":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0081272684},"n":{"l":0.0229686592}}}},{"f":"pill_ct","t":27,"y":{"f":"dsd_comm","t":0.993911266,"y":{"f":"stable_art","t":0.00643521128,"y":{"l":-0.00900400244},"n":{"l":0.00935349055}},"n":{"f":"d_to_vl","t":370.473633,"y":{"l":-0.0220686458},"n":{"l":-0.00356527162}}},"n":{"f":"phone_fu","t":0.00292103272,"y":{"f":"dsd_comm","t":0.00758459931,"y":{"l":-0.0200414434},"n":{"l":0.00364725734}},"n":{"f":"phone_fu","t":0.99036181,"y":{"l":0.0112717459},"n":{"l":-0.00808187667}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0127433687},"n":{"l":0.00395837426}},"n":{"l":0.0251633059}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"short_supply","t":0.00873677339,"y":{"l":-0.0206944086},"n":{"l":-0.000394523173}},"n":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0102134747},"n":{"l":0.015640514}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"c_traced","t":0.993564785,"y":{"l":0.00408622948},"n":{"l":-0.0183526203}},"n":{"l":0.0228037685}},"n":{"f":"d_since_vl","t":39.1942558,"y":{"f":"self_referred","t":0.00501863053,"y":{"l":-0.0143007664},"n":{"l":0.00155728578}},"n":{"f":"ov_res","t":0.00963821821,"y":{"l":-0.0200764108},"n":{"l":0.00585399615}}}},{"f":"unemployed","t":0.997078955,"y":{"f":"unemployed","t":0.0079644043,"y":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.0123859346},"n":{"l":0.00436188839}},"n":{"l":0.0250025857}},"n":{"f":"self_referred","t":0.00501863053,"y":{"f":"short_supply","t":0.00873677339,"y":{"l":-0.0202592537},"n":{"l":0.00110311888}},"n":{"f":"comm_linked","t":0.00210384326,"y":{"l":-0.0104009928},"n":{"l":0.0154992519}}}},{"f":"marital_risk","t":0.996832132,"y":{"f":"marital_risk","t":0.00210384326,"y":{"f":"self_referred","t":0.00501863053,"y":{"l":-0.0178097449},"n":{"l":0.000985438353}},"n":{"l":0.0256363656}},"n":{"f":"vl_known","t":0.998120129,"y":{"f":"vl_known","t":0.00514202705,"y":{"l":-0.0033226409},"n":{"l":0.0202097837}},"n":{"f":"pill_ct","t":4,"y":{"l":-0.00606947811},"n":{"l":-0.0204535685}}}},{"f":"stable_art","t":0.00643521128,"y":{"f":"phone_fu","t":0.00292103272,"y":{"f":"pill_ct","t":2.96757984,"y":{"l":0.00122119742},"n":{"l":-0.0201482028}},"n":{"f":"short_supply","t":0.986301422,"y":{"l":0.0143165393},"n":{"l":-0.00329909613}}},"n":{"f":"stable_art","t":0.993911266,"y":{"l":0.0246681608},"n":{"f":"marital_risk","t":0.996832132,"y":{"l":0.00467810081},"n":{"l":-0.0106941843}}}},{"f":"sex_male","t":0.00292184297,"y":{"f":"art_months","t":44.4693489,"y":{"f":"phone_fu","t":0.00292103272,"y":{"l":-0.016689362},"n":{"l":0.00873365439}},"n":{"f":"marital_risk","t":0.985332966,"y":{"l":0.00556133548},"n":{"l":-0.0123825949}}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.0253632925},"n":{"f":"pill_ct","t":2,"y":{"l":0.0137590282},"n":{"l":-0.0111444006}}}},{"f":"pill_ct","t":27,"y":{"f":"dsd_comm","t":0.993336916,"y":{"f":"c_traced","t":0.993564785,"y":{"l":0.00839047041},"n":{"l":-0.0112428153}},"n":{"f":"d_to_vl","t":370.473633,"y":{"l":-0.0215634108},"n":{"l":-0.00395507365}}},"n":{"f":"phone_fu","t":0.00292103272,"y":{"f":"dsd_comm","t":0.00758459931,"y":{"l":-0.0191262066},"n":{"l":0.00314766378}},"n":{"f":"supply_mo","t":1.10015082,"y":{"l":-0.00635612104},"n":{"l":0.0114010368}}}},{"f":"dsd_comm","t":0.993911266,"y":{"f":"pill_ct","t":12,"y":{"f":"vl_supp","t":0.00534616085,"y":{"l":-0.0065043238},"n":{"l":0.0115669305}},"n":{"f":"vl_elig","t":0.00451950915,"y":{"l":-0.0123146409},"n":{"l":0.0103760669}}},"n":{"f":"d_to_vl","t":499.255341,"y":{"f":"pill_ct","t":53.7742081,"y":{"l":-0.0209868196},"n":{"l":-0.000925609958}},"n":{"f":"marital_risk","t":0.00210384326,"y":{"l":-0.00595053611},"n":{"l":0.00616447954}}}},{"f":"stable_art","t":0.00643521128,"y":{"f":"phone_fu","t":0.00292103272,"y":{"f":"pill_ct","t":5,"y":{"l":-0.00421765959},"n":{"l":-0.0216120481}},"n":{"f":"vl_supp","t":0.00534616085,"y":{"l":-0.0030164679},"n":{"l":0.0152032766}}},"n":{"f":"stable_art","t":0.993911266,"y":{"l":0.024206154},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.00505343126},"n":{"l":-0.0111489305}}}},{"f":"stable_art","t":0.00643521128,"y":{"f":"phone_fu","t":0.00292103272,"y":{"f":"pill_ct","t":5,"y":{"l":-0.00476469239},"n":{"l":-0.0218819976}},"n":{"f":"short_supply","t":0.986301422,"y":{"l":0.0144161163},"n":{"l":-0.00169921981}}},"n":{"f":"stable_art","t":0.988519311,"y":{"l":0.0239248816},"n":{"f":"marital_risk","t":0.996832132,"y":{"l":0.00465487689},"n":{"l":-0.0102841472}}}},{"f":"sex_male","t":0.00292184297,"y":{"f":"art_months","t":43.4625511,"y":{"f":"phone_fu","t":0.00292103272,"y":{"l":-0.0176934153},"n":{"l":0.00877941214}},"n":{"f":"unemployed","t":0.0079644043,"y":{"l":-0.00885914452},"n":{"l":0.00708774151}}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.0250049941},"n":{"f":"pill_ct","t":2,"y":{"l":0.0113338372},"n":{"l":-0.0109075112}}}},{"f":"supply_mo","t":6,"y":{"f":"long_supply","t":0.00534616085,"y":{"f":"c_traced","t":0.993564785,"y":{"l":0.00431757793},"n":{"l":-0.0166774467}},"n":{"l":0.0224583782}},"n":{"f":"sex_male","t":0.00292184297,"y":{"f":"d_to_res","t":239.851547,"y":{"l":-0.00537995528},"n":{"l":-0.0199496374}},"n":{"f":"sex_male","t":0.994648635,"y":{"l":0.0216896012},"n":{"l":-0.00943179708}}}}];
+const MEDIANS = {"age_yrs":38.05475701574264,"sex_male":0.0,"edu_ord":2.0,"marital_risk":0.0,"is_urban":1.0,"unemployed":0.0,"self_referred":1.0,"comm_linked":0.0,"art_months":43.69250985545335,"early_art":0.0,"stable_art":1.0,"on_2nd_line":0.0,"supply_mo":6.0,"short_supply":0.0,"long_supply":1.0,"d_to_rev":229.0,"d_to_res":229.0,"ov_rev":0.0,"ov_res":0.0,"pill_ct":10.0,"d_since_vl":21.0,"d_to_vl":327.0,"vl_elig":0.0,"vl_supp":1.0,"vl_unsupp":0.0,"vl_known":1.0,"cd4":429.5,"cd4_low":0.0,"pregnant":0.0,"bfeed":0.0,"c_traced":0.0,"dsd_comm":0.0,"phone_fu":0.0,"risk_cmpd":0.0};
+const BASE_MARGIN = 0.0;
+const TIER_CUTS = {"Critical": 0.35, "High": 0.25, "Moderate": 0.15};
+
+</script>
+<script>
+function val(id){ const el = document.getElementById(id); return el.value === "" ? null : el.value; }
+function checked(id){ return document.getElementById(id).checked; }
+function dateVal(id){ const v = val(id); return v ? new Date(v + "T00:00:00") : null; }
+function numVal(id){ const v = val(id); return v === null ? null : parseFloat(v); }
+
+document.getElementById('clientForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const raw = {
+    birthdate: dateVal('birthdate'),
+    sex: val('sex'),
+    education: val('education'),
+    marital_status: val('marital_status'),
+    client_resident: val('client_resident'),
+    occupation: val('occupation'),
+    referral_source: val('referral_source'),
+    art_init_date: dateVal('art_init_date'),
+    supply_category: val('supply_category'),
+    next_review_date: dateVal('next_review_date'),
+    next_resupply_date: dateVal('next_resupply_date'),
+    pill_count: numVal('pill_count'),
+    last_vl_date: dateVal('last_vl_date'),
+    next_vl_date: dateVal('next_vl_date'),
+    vl_eligible: checked('vl_eligible'),
+    vl_status: val('vl_status'),
+    cd4: numVal('cd4'),
+    pregnant: checked('pregnant'),
+    breastfeeding: checked('breastfeeding'),
+    contact_traced: checked('contact_traced'),
+    visit_type: val('visit_type'),
+  };
+  const snapshot = new Date(); // "today" — live use
+  const feats = engineerFeatures(raw, snapshot);
+  const score = predictProba(feats, TREES, MEDIANS);
+  const tier = riskTier(score);
+
+  const actions = {
+    Critical: "Same-week contact. Highest priority.",
+    High: "Contact within two weeks.",
+    Moderate: "Reinforce at next scheduled visit.",
+    Low: "Standard care continues.",
+  };
+
+  document.getElementById('placeholder').style.display = 'none';
+  const result = document.getElementById('result');
+  result.classList.add('show');
+  const badge = document.getElementById('tierBadge');
+  badge.textContent = tier + ' Risk';
+  badge.className = 'tier-badge tier-' + tier;
+  document.getElementById('scoreBig').textContent = score.toFixed(2);
+  const actionBox = document.getElementById('actionBox');
+  actionBox.textContent = actions[tier];
+  actionBox.className = 'action-box action-' + tier;
+});
+
+document.getElementById('clearForm').addEventListener('click', function(){
+  document.getElementById('clientForm').reset();
+  document.getElementById('result').classList.remove('show');
+  document.getElementById('placeholder').style.display = 'block';
+});
+
+document.getElementById('fillDemo').addEventListener('click', function(){
+  document.getElementById('birthdate').value = '1986-03-14';
+  document.getElementById('sex').value = 'M';
+  document.getElementById('education').value = 'Secondary';
+  document.getElementById('client_resident').value = 'Urban';
+  document.getElementById('marital_status').value = 'Divorced';
+  document.getElementById('occupation').value = 'Unemployed';
+  document.getElementById('referral_source').value = 'Self referred';
+  document.getElementById('art_init_date').value = '2025-02-10';
+  document.getElementById('visit_type').value = 'Clinical Visit - Present self (Non-DSD)';
+  document.getElementById('supply_category').value = '1 month or less';
+  document.getElementById('pill_count').value = 3;
+  const today = new Date();
+  const past = new Date(today.getTime() - 10*86400000);
+  document.getElementById('next_review_date').value = past.toISOString().slice(0,10);
+  document.getElementById('next_resupply_date').value = past.toISOString().slice(0,10);
+  document.getElementById('last_vl_date').value = '2024-11-01';
+  document.getElementById('vl_status').value = 'Unsuppressed';
+});
+</script>
+</body>
+</html>
